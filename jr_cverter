@@ -1,0 +1,316 @@
+Sub jr_cverter()
+
+
+'+----- •??• -----+
+' -CODIGO PRIVADO, SUJEITO A REVISÃO e ATUALIZAÇÕES FUTURAS!-
+' -ULTIMA ATUALIZAÇÃO: 27/01/2022
+'+----- •??• -----+
+''1020106010201060
+' ' *-*-*-*-*-*-*-*-/*-*-*-*-*/-*-*-*-*-*-*-*--*-*-*-*-*-*/-*-*-*-*-/-*-*-*-*-*-*-/*---*/*---*-/---*/---*-*--/-*-*-*---*-*---*/-*--*---*----*-*-*-*-
+' *-*-*-*-*-/*-*-*-*-*-*-*-*-*/-*-*-*-*-*-/*--*-*-/*-*-*-*-*-/*-*-*--*-*-*-*-*-/*-*---*-*---*-----*---*-*---*-*-*-/--*-*---*-*--*/---*----*-*-*-*-*--*-*--*-*-*-*--*-*-*-*-*--*-*--*-*
+'                      __
+'                     [  |
+'                      | |.--.   _   __
+'                      | '/'`\ \[ \ [  ]
+'                      |  \__/ | \ '/ /
+'                     [__;.__.'[\_:  /
+'                               \__.'
+'                                         ________   __    __      __      _    _____     ____     ______
+'                                        (___  ___)  ) )  ( (     /  \    / )  (_   _)   / __ \   (   __ \
+'                                            ) )    ( (    ) )   / /\ \  / /     | |    / /  \ \   ) (__) )
+'                                           ( (      ) )  ( (    ) ) ) ) ) )     | |   ( ()  () ) (    __/
+'                                        __  ) )    ( (    ) )  ( ( ( ( ( (      | |   ( ()  () )  ) \ \ _
+'                                       ( (_/ /      ) \__/ (   / /  \ \/ /     _| |__  \ \__/ /  ( ( \ \_))
+'                                        \___/       \______/  (_/    \__/     /_____(   \____/    )_) \__/
+'
+'
+'
+'' *-*-*-*/-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*---*-*---*-----*---*-*---*-*-*---*-*---*-*--*---*----*-*-*-*-*--*-*--*-*-*-*--*-*-*-*-*--*-*--*-*
+' *-*-*-*-*-*-*-*/-*-*-*-*-/*-*-*-*-*-*-*-*/--*-*-/*-*-*-*-*/-*-*-*--*-/*-*-*-*-*-*---*-*---*-----*---*-*---*-*-*---*-*---*-*--*---*----*-*-*-*-*--*-*--*-*-*-*--*-*-*-*-*--*-*--*-*
+' *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/-*-*-*--*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*---*-*---*-----*---*-*---*-*-*---*-*---*-*--*---*----*-*-*-*
+' *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*/-*-*-*-*--*-*-*-*-*-*-*---*-*---*-----*---*-*---*-*-*---*-*---*-*--*---*----*-*-*-*-*--*-*--*-*-*-*--*-*-*-*-*--*-*--*-*
+
+
+    Dim str As String
+        
+                                                           str = InputBox(Chr(13) & Chr(13) & Chr(13) & Chr(13) & "DIGITE O VALOR ABAIXO R$", "created by @juniordev")
+    If Not IsNumeric(str) Or str = "" Then Exit Sub
+    If str < 0 Then Exit Sub
+    MsgBox "VALORES ADICIONADOS!                                            " & Chr(13) & Chr(13) & Chr(13) & Chr(13) & "CONFIRA: " & Format(str, "R$ #,##0.00") & Chr(13) & Chr(13) & "(" & Extenso(CDbl(str)) & ")" & Chr(13) & Chr(13) & Chr(13), vbSystemModal, "Cardoso Ramos"
+    Selection.TypeText Format(str, "R$ #,##0.00") _
+    & " (" & Extenso(CDbl(str)) & ")"
+End Sub
+
+Function Extenso(dValor As Double) As String
+    Dim sMoeda As String
+    Dim dCents As Variant
+
+    '»»————- ? ————-««
+
+    If dValor > 999999999999999# Then
+                                                                                                                             MsgBox "Opa, tem algo errado com o seu calculo! o valor da somatoria está muito alto :(!", vbSystemModal, "VALOR MAXIMO ATINGIDO!"
+        Exit Function
+    End If
+    
+    '»»————- ? ————-««
+    If dValor < 0.01 Then
+        Extenso = "zero reais"
+        Exit Function
+    End If
+    
+    '»»————- ? ————-««
+    If Fix(dValor) = 1 Then
+        sMoeda = " real"
+    Else
+        sMoeda = " reais"
+    End If
+    
+    '»»————- ? ————-««
+    dCents = dValor - Fix(dValor)
+
+    '»»————- ? ————-««
+    dValor = dValor - CDbl(dCents)
+    
+    '»»————- ? ————-««
+    dCents = Centavos(CDbl(dCents) * 100)
+    
+    '»»————- ? ————-««
+    If dCents <> vbNullString And dValor >= 1 Then
+        '»»————- ? ————-««
+        dCents = " e " & dCents
+    End If
+    '»»————- ? ————-««
+    sMoeda = Trim(Trilhões(dValor)) & sMoeda & dCents
+    sMoeda = Replace(sMoeda, ", e", " e")
+    sMoeda = Replace(sMoeda, ", r", " r")
+    If Left(sMoeda, 2) = "e " Then
+        sMoeda = Mid(sMoeda, 3, Len(sMoeda))
+         '»»————- ? ————-««
+    End If
+    Extenso = sMoeda
+End Function
+
+Private Function Centavos(dValor As Double) As String
+    
+    '»»————- ? ————-««
+    dValor = Round(CDbl(dValor / 100), 2)
+
+    '»»————- ? ————-««
+    If dValor = 0.01 Then
+        Centavos = "um centavo"
+        Exit Function
+    End If
+    
+    '»»————- ? ————-««
+    dValor = dValor * 100
+
+    '»»————- ? ————-««
+    If Dezenas(dValor) = vbNullString Then
+        '»»————- ? ————-««
+        Centavos = vbNullString
+    Else
+        '»»————- ? ————-««
+        Centavos = Dezenas(dValor) & " centavos"
+    End If
+
+End Function
+
+Private Function Unidades(dValor As Double) As String
+    Dim Unid(9) As String
+    '»»————- ? ————-««
+    Unid(1) = "um": Unid(6) = "seis"
+    Unid(2) = "dois": Unid(7) = "sete"
+    Unid(3) = "três": Unid(8) = "oito"
+    Unid(4) = "quatro": Unid(9) = "nove"
+    Unid(5) = "cinco"
+
+    '»»————- ? ————-««
+    Unidades = Unid(dValor)
+End Function
+
+Private Function Dezenas(dValor As Double) As String
+    Dim Dez1(9) As String
+    Dim Dez2(9) As String
+    Dim dDezena As Double
+    Dim dUnidade As Double
+
+
+    Dez2(1) = "onze": Dez2(6) = "dezesseis"
+    Dez2(2) = "doze": Dez2(7) = "dezessete"
+    Dez2(3) = "treze": Dez2(8) = "dezoito"
+    Dez2(4) = "quatorze": Dez2(9) = "dezenove"
+    Dez2(5) = "quinze"
+    
+    Dez1(1) = "dez": Dez1(6) = "sessenta"
+    Dez1(2) = "vinte": Dez1(7) = "setenta"
+    Dez1(3) = "trinta": Dez1(8) = "oitenta"
+    Dez1(4) = "quarenta": Dez1(9) = "noventa"
+    Dez1(5) = "cinquenta"
+    
+
+    dDezena = Fix(dValor / 10)
+    
+
+    dUnidade = dValor Mod 10
+
+    If dDezena = 0 Then
+
+        Dezenas = Unidades(dUnidade)
+        Exit Function
+    Else
+        '»»————- ? ————-««
+        Dezenas = Dez1(dDezena)
+    End If
+
+    '»»————- ? ————-««
+    If (dDezena = 1 And dUnidade > 0) Then
+        Dezenas = Dez2(dUnidade)
+    Else
+        '»»————- ? ————-««
+        If (dDezena > 1 And dUnidade > 0) Then
+            '»»————- ? ————-««
+            Dezenas = Dezenas & " e " & Unidades(dUnidade)
+        End If
+    End If
+    
+End Function
+
+Private Function Centenas(dValor As Double) As String
+    
+    Dim dCento As Double
+    Dim dDez As Double
+    Dim dUni As Double
+    Dim dUniMod As Double
+    Dim dModDez As Double
+    Dim sCento As String
+    Dim Cento(9) As String
+
+    '»»————- ? ————-«« Define as centenas
+    Cento(1) = "cento": Cento(6) = "seiscentos"
+    Cento(2) = "duzentos": Cento(7) = "setecentos"
+    Cento(3) = "trezentos": Cento(8) = "oitocentos"
+    Cento(4) = "quatrocentos": Cento(9) = "novecentos"
+    Cento(5) = "quinhentos"
+        
+    '»»————- ? ————-«« Calcula o inteiro da centena
+    dCento = Fix(dValor / 100)
+    
+    '»»————- ? ————-«« Calcula a parte da dezena
+    dDez = dValor - (dCento * 100)
+    
+    '»»————- ? ————-««Calcula o inteiro da unidade
+    dUni = Fix(dDez / 10)
+    
+    '»»————- ? ————-««Calcula o resto da unidade
+    dUniMod = dUni Mod 10
+    
+    '»»————- ? ————-««Calcula o resto da dezena
+    dModDez = dDez Mod 10
+    
+    '»»————- ? ————-««Se centena for cem, definir string como "cem " e sair
+    If dValor = 100 Then
+        sCento = "cem "
+    Else
+        '»»————- ? ————-««Caso contrário definir a string da centena
+        sCento = Cento(dCento)
+    End If
+    
+    '»»————- ? ————-««Avalia se a unidade é maior ou igual a zero, se o resto da unidade é igual ou
+    '»»————- ? ————-««maior que zero, se a dezena é maior ou igual a um e se a centena é igual ou
+    '»»————- ? ————-««maior que 1. Se forem verdadeiros, adicionar " e " à string da centena:
+    If (dUni >= 0 And dUniMod >= 0 And dDez >= 1 And dCento >= 1) Then
+        sCento = sCento & " e "
+    End If
+    
+    '»»————- ? ————-««Concatena a string do cento com a string da dezena
+    Centenas = Trim(sCento & Dezenas(dDez))
+End Function
+
+Private Function Milhares(dValor As Double) As String
+    Dim dMilhar As Double
+    Dim dCento As Double
+    Dim sMilhar As String
+    
+    dMilhar = Fix(dValor / 1000)
+    dCento = dValor - (dMilhar * 1000)
+
+    If dMilhar = 0 Then sMilhar = vbNullString
+    If (dMilhar >= 1 And dMilhar < 10) Then
+        sMilhar = Unidades(dMilhar) & " mil, "
+     ElseIf (dMilhar >= 10 And dMilhar < 100) Then
+        sMilhar = Dezenas(dMilhar) & " mil, "
+     ElseIf (dMilhar >= 100 And dMilhar < 1000) Then
+        sMilhar = Centenas(dMilhar) & " mil, "
+    End If
+    
+    If (dCento >= 1 And dCento <= 100) Then sMilhar = sMilhar & "e "
+    
+    Milhares = Trim(sMilhar & Centenas(dCento))
+End Function
+
+Private Function Milhões(dValor As Double) As String
+
+    Dim dMilhão As Double
+    Dim dMilhares As Double
+    Dim sMilhão As String
+    
+    dMilhão = Int(dValor / 1000000)
+    dMilhares = dValor - (dMilhão * 1000000)
+    If dMilhão = 0 Then sMilhão = vbNullString
+    If (dMilhão = 1) Then
+        sMilhão = Unidades(dMilhão) & " milhão, "
+    ElseIf (dMilhão > 1 And dMilhão < 10) Then
+        sMilhão = Unidades(dMilhão) & " milhões, "
+    ElseIf (dMilhão >= 10 And dMilhão < 100) Then
+        sMilhão = Dezenas(dMilhão) & " milhões, "
+    ElseIf (dMilhão >= 100 And dMilhão < 1000) Then
+        sMilhão = Centenas(dMilhão) & " milhões, "
+    End If
+    If dValor = 1000000# Then sMilhão = "um milhão de "
+    
+    Milhões = Trim(sMilhão & Milhares(dMilhares))
+End Function
+
+Private Function Bilhões(dValor As Double) As String
+
+    Dim dBilhão As Double
+    Dim dMilhão As Double
+    Dim sBilhão As String
+    
+    dBilhão = Int(dValor / 1000000000)
+    dMilhão = dValor - (dBilhão * 1000000000)
+    If (dBilhão = 1) Then
+        sBilhão = Unidades(dBilhão) & " bilhão, "
+    ElseIf (dBilhão > 1 And dBilhão < 10) Then
+        sBilhão = Unidades(dBilhão) & " bilhões, "
+    ElseIf (dBilhão >= 10 And dBilhão < 100) Then
+        sBilhão = Dezenas(dBilhão) & " bilhões, "
+    ElseIf (dBilhão >= 100 And dBilhão < 1000) Then
+        sBilhão = Centenas(dBilhão) & " bilhões, "
+    End If
+    
+    If dValor = 1000000000# Then sBilhão = "um bilhão de "
+    Bilhões = Trim(sBilhão & Milhões(dMilhão))
+End Function
+
+Private Function Trilhões(dValor As Double) As String
+    
+    Dim dTrilhão As Double
+    Dim dBilhão As Double
+    Dim sTrilhão As String
+    
+    dTrilhão = Int(dValor / 1000000000000#)
+    dBilhão = dValor - (dTrilhão * 1000000000000#)
+    If (dTrilhão = 1) Then
+        sTrilhão = Unidades(dTrilhão) & " trilhão, "
+    ElseIf (dTrilhão > 1 And dTrilhão < 10) Then
+        sTrilhão = Unidades(dTrilhão) & " trilhões, "
+    ElseIf (dTrilhão >= 10 And dTrilhão < 100) Then
+        sTrilhão = Dezenas(dTrilhão) & " trilhões, "
+    ElseIf (dTrilhão >= 100 And dTrilhão < 1000) Then
+        sTrilhão = Centenas(dTrilhão) & " trilhões, "
+    End If
+    
+    If dValor = 1000000000000# Then sTrilhão = "um trilhão de "
+    Trilhões = Trim(sTrilhão & Bilhões(dBilhão))
+End Function
